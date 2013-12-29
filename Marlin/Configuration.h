@@ -146,8 +146,8 @@
 // PID settings:
 // Comment the following line to disable PID and enable bang-bang.
 #define PIDTEMP
-#define BANG_MAX 255 // limits current to nozzle while in bang-bang mode; 255=full current
-#define PID_MAX 255 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
+#define BANG_MAX 50 // limits current to nozzle while in bang-bang mode; 255=full current
+#define PID_MAX 50 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
 #ifdef PIDTEMP
   //#define PID_DEBUG // Sends debug data to the serial port.
   //#define PID_OPENLOOP 1 // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
@@ -328,9 +328,9 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #endif
 
 // Travel limits after homing
-#define X_MAX_POS 205
+#define X_MAX_POS 210
 #define X_MIN_POS 0
-#define Y_MAX_POS 205
+#define Y_MAX_POS 220
 #define Y_MIN_POS 0
 #define Z_MAX_POS 200
 #define Z_MIN_POS 0
@@ -368,12 +368,12 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define X_PULLY_TEETH  20
 #define Y_PULLY_TEETH  X_PULLY_TEETH
 #define Z_GEAR_RATIO   1.0
-#define E1_PINCH_DIAM  8.1
+#define E1_PINCH_DIAM  7.9
 
 #define X_STEPS_PER_MM    ((X_MOTOR_STEP_PER_REV * MICROSTEPS) / (X_BELT_PITCH * X_PULLY_TEETH))
 #define Y_STEPS_PER_MM    ((Y_MOTOR_STEP_PER_REV * MICROSTEPS) / (Y_BELT_PITCH * Y_PULLY_TEETH))
 #define Z_STEPS_PER_MM    (Z_MOTOR_STEP_PER_REV * MICROSTEPS / Z_LEAD_PITCH * Z_GEAR_RATIO)
-#define E1_STEPS_PER_MM ((E1_MOTOR_STEP_PER_REV * MICROSTEPS * E1_GEAR_RATIO) / (E1_PINCH_DIAM * PI))
+#define E1_STEPS_PER_MM   ((E1_MOTOR_STEP_PER_REV * MICROSTEPS * E1_GEAR_RATIO) / (E1_PINCH_DIAM * PI))
 //#define E1_STEPS_PER_MM   760*1.1
 
 //#define DEFAULT_AXIS_STEPS_PER_UNIT   {78.7402,78.7402,200.0*8/3,760*1.1}  // default steps per unit for Ultimaker
