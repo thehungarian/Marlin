@@ -146,8 +146,8 @@
 // PID settings:
 // Comment the following line to disable PID and enable bang-bang.
 #define PIDTEMP
-#define BANG_MAX 50 // limits current to nozzle while in bang-bang mode; 255=full current
-#define PID_MAX 50 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
+#define BANG_MAX 40 // limits current to nozzle while in bang-bang mode; 255=full current
+#define PID_MAX 40 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
 #ifdef PIDTEMP
   //#define PID_DEBUG // Sends debug data to the serial port.
   //#define PID_OPENLOOP 1 // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
@@ -159,9 +159,14 @@
 
 // If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
 // Ultimaker
-    #define  DEFAULT_Kp 22.2
-    #define  DEFAULT_Ki 1.08
-    #define  DEFAULT_Kd 114
+//    #define  DEFAULT_Kp 22.2
+//    #define  DEFAULT_Ki 1.08
+//    #define  DEFAULT_Kd 114
+
+// J hotend @ 24v
+#define  DEFAULT_Kp 5.21
+#define  DEFAULT_Ki 0.32
+#define  DEFAULT_Kd 21.33
 
 // Makergear
 //    #define  DEFAULT_Kp 7.0
@@ -184,7 +189,7 @@
 // If your configuration is significantly different than this and you don't understand the issues involved, you probably
 // shouldn't use bed PID until someone else verifies your hardware works.
 // If this is enabled, find your own PID constants below.
-//#define PIDTEMPBED
+#define PIDTEMPBED
 //
 //#define BED_LIMIT_SWITCHING
 
@@ -197,9 +202,14 @@
 #ifdef PIDTEMPBED
 //120v 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
 //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-    #define  DEFAULT_bedKp 10.00
-    #define  DEFAULT_bedKi .023
-    #define  DEFAULT_bedKd 305.4
+//    #define  DEFAULT_bedKp 10.00
+//    #define  DEFAULT_bedKi .023
+//    #define  DEFAULT_bedKd 305.4
+
+// Orange 400W silicone heater
+#define  DEFAULT_bedKp 220.48
+#define  DEFAULT_bedKi 6.44
+#define  DEFAULT_bedKd 1885.66
 
 //120v 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
 //from pidautotune
@@ -330,7 +340,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // Travel limits after homing
 #define X_MAX_POS 210
 #define X_MIN_POS 0
-#define Y_MAX_POS 220
+#define Y_MAX_POS 230
 #define Y_MIN_POS 0
 #define Z_MAX_POS 200
 #define Z_MIN_POS 0
@@ -368,21 +378,23 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define X_PULLY_TEETH  20
 #define Y_PULLY_TEETH  X_PULLY_TEETH
 #define Z_GEAR_RATIO   1.0
-#define E1_PINCH_DIAM  7.9
+#define E1_PINCH_DIAM  5.502202665
 
 #define X_STEPS_PER_MM    ((X_MOTOR_STEP_PER_REV * MICROSTEPS) / (X_BELT_PITCH * X_PULLY_TEETH))
 #define Y_STEPS_PER_MM    ((Y_MOTOR_STEP_PER_REV * MICROSTEPS) / (Y_BELT_PITCH * Y_PULLY_TEETH))
 #define Z_STEPS_PER_MM    (Z_MOTOR_STEP_PER_REV * MICROSTEPS / Z_LEAD_PITCH * Z_GEAR_RATIO)
-#define E1_STEPS_PER_MM   ((E1_MOTOR_STEP_PER_REV * MICROSTEPS * E1_GEAR_RATIO) / (E1_PINCH_DIAM * PI))
+//#define E1_STEPS_PER_MM   966.7604411628 //((E1_MOTOR_STEP_PER_REV * MICROSTEPS * E1_GEAR_RATIO) / (E1_PINCH_DIAM * PI))
+//#define E1_STEPS_PER_MM   930
 //#define E1_STEPS_PER_MM   760*1.1
+#define E1_STEPS_PER_MM   747.6176369993
 
 //#define DEFAULT_AXIS_STEPS_PER_UNIT   {78.7402,78.7402,200.0*8/3,760*1.1}  // default steps per unit for Ultimaker
 #define DEFAULT_AXIS_STEPS_PER_UNIT   { X_STEPS_PER_MM, Y_STEPS_PER_MM, Z_STEPS_PER_MM, E1_STEPS_PER_MM}
 
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 5, 25}    // (mm/sec)
-#define DEFAULT_MAX_ACCELERATION      {9000,4000,400,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
+#define DEFAULT_MAX_ACCELERATION      {9000,2000,400,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
-#define DEFAULT_ACCELERATION          3000    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
+#define DEFAULT_ACCELERATION          2000    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
 #define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for retracts
 
 // Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
