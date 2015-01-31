@@ -155,6 +155,7 @@ static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned l
 #ifndef REPRAPWORLD_KEYPAD
 volatile uint8_t buttons;//Contains the bits of the currently pressed buttons.
 #else
+volatile uint16_t buttons;
 volatile uint8_t buttons_reprapworld_keypad; // to store the reprapworld_keypad shift register values
 #endif
 #ifdef LCD_HAS_SLOW_BUTTONS
