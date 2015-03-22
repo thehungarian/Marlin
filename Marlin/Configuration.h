@@ -25,15 +25,15 @@
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION "1.0.2"
-#define STRING_URL "reprap.org"
+#define STRING_URL "https://github.com/thehungarian/Marlin"
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
-#define STRING_CONFIG_H_AUTHOR "(none, default config)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "Richard Collins" // Who made the changes.
 #define STRING_SPLASH "v" STRING_VERSION " - " STRING_URL // will be shown during bootup
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
 // Serial port 0 is still used by the Arduino bootloader regardless of this setting.
-#define SERIAL_PORT 0
+//#define SERIAL_PORT 0
 
 // This determines the communication speed of the printer
 //#define BAUDRATE 250000
@@ -105,7 +105,7 @@
 // 147 is Pt100 with 4k7 pullup
 // 110 is Pt100 with 1k pullup (non standard)
 
-#define TEMP_SENSOR_0 1
+#define TEMP_SENSOR_0 5
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_BED 1
@@ -147,8 +147,8 @@
 // PID settings:
 // Comment the following line to disable PID and enable bang-bang.
 #define PIDTEMP
-#define BANG_MAX 40 // limits current to nozzle while in bang-bang mode; 255=full current
-#define PID_MAX 40 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
+#define BANG_MAX 80 // limits current to nozzle while in bang-bang mode; 255=full current
+#define PID_MAX 80 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
 #ifdef PIDTEMP
   //#define PID_DEBUG // Sends debug data to the serial port.
   //#define PID_OPENLOOP 1 // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
@@ -168,9 +168,14 @@
 //    #define  DEFAULT_Kd 114
 
 // J hotend @ 24v
-#define  DEFAULT_Kp 5.21
-#define  DEFAULT_Ki 0.32
-#define  DEFAULT_Kd 21.33
+//#define  DEFAULT_Kp 5.21
+//#define  DEFAULT_Ki 0.32
+//#define  DEFAULT_Kd 21.33
+
+// E3D @24v
+#define DEFAULT_Kp 32.45
+#define DEFAULT_Ki 3.93
+#define DEFAULT_Kd 66.99
 
 // MakerGear
 //    #define  DEFAULT_Kp 7.0
@@ -261,8 +266,8 @@ your extruder heater takes 2 minutes to hit the target on heating.
 // uncomment the 2 defines below:
 
 // Parameters for all extruder heaters
-//#define THERMAL_RUNAWAY_PROTECTION_PERIOD 40 //in seconds
-//#define THERMAL_RUNAWAY_PROTECTION_HYSTERESIS 4 // in degree Celsius
+#define THERMAL_RUNAWAY_PROTECTION_PERIOD 40 //in seconds
+#define THERMAL_RUNAWAY_PROTECTION_HYSTERESIS 4 // in degree Celsius
 
 // If you want to enable this feature for your bed heater,
 // uncomment the 2 defines below:
@@ -347,11 +352,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
 // Travel limits after homing
-#define X_MAX_POS 210
+#define X_MAX_POS 200
 #define X_MIN_POS 0
-#define Y_MAX_POS 210
+#define Y_MAX_POS 240
 #define Y_MIN_POS 0
-#define Z_MAX_POS 200
+#define Z_MAX_POS 220
 #define Z_MIN_POS 0
 
 #define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
@@ -512,8 +517,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define Z_LEAD_PITCH   2.0
 #define E1_GEAR_RATIO  (47.0 / 9.0)
 
-#define X_PULLY_TEETH  20
-#define Y_PULLY_TEETH  X_PULLY_TEETH
+#define X_PULLY_TEETH  30
+#define Y_PULLY_TEETH  20
 #define Z_GEAR_RATIO   1.0
 #define E1_PINCH_DIAM  5.502202665
 
