@@ -147,8 +147,8 @@
 // PID settings:
 // Comment the following line to disable PID and enable bang-bang.
 #define PIDTEMP
-#define BANG_MAX 80 // limits current to nozzle while in bang-bang mode; 255=full current
-#define PID_MAX 80 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
+#define BANG_MAX 200 // limits current to nozzle while in bang-bang mode; 255=full current
+#define PID_MAX 200 // limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
 #ifdef PIDTEMP
   //#define PID_DEBUG // Sends debug data to the serial port.
   //#define PID_OPENLOOP 1 // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
@@ -198,7 +198,7 @@
 // If your configuration is significantly different than this and you don't understand the issues involved, you probably
 // shouldn't use bed PID until someone else verifies your hardware works.
 // If this is enabled, find your own PID constants below.
-#define PIDTEMPBED
+//#define PIDTEMPBED
 //
 //#define BED_LIMIT_SWITCHING
 
@@ -216,8 +216,8 @@
 //    #define  DEFAULT_bedKd 305.4
 
 // Orange 400W silicone heater
-#define  DEFAULT_bedKp 220.48
-#define  DEFAULT_bedKi 6.44
+#define  DEFAULT_bedKp 280.48
+#define  DEFAULT_bedKi 9.44
 #define  DEFAULT_bedKd 1885.66
 
 //120v 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
@@ -348,7 +348,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define Y_HOME_DIR -1
 #define Z_HOME_DIR -1
 
-#define min_software_endstops false // If true, axis won't move to coordinates less than HOME_POS.
+#define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
 // Travel limits after homing
