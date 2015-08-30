@@ -372,9 +372,18 @@ int getHeaterPower(int heater) {
     #endif
   #endif 
 
+bool lastExtruderAutoFanState = 0;
+
 void setExtruderAutoFanState(int pin, bool state)
 {
   unsigned char newFanSpeed = (state != 0) ? EXTRUDER_AUTO_FAN_SPEED : 0;
+  // kickstart the fan if its just been turned on
+  if(state && state != lastExtruderAutoFanState)
+  {
+    newFanSpeed = 255;
+  }
+  lastExtruderAutoFanState = state;
+  
   // this idiom allows both digital and PWM fan outputs (see M42 handling).
   pinMode(pin, OUTPUT);
   digitalWrite(pin, newFanSpeed);
