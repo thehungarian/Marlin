@@ -41,10 +41,14 @@
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
 // Serial port 0 is still used by the Arduino bootloader regardless of this setting.
-//#define SERIAL_PORT 0
+#define SERIAL_PORT 2
 
 // This determines the communication speed of the printer
-#define BAUDRATE 115200
+//#define BAUDRATE 115200
+//#define BAUDRATE 230400
+//#define BAUDRATE 250000
+#define BAUDRATE 1000000
+//#define BAUDRATE 666666
 
 // This enables the serial port associated to the Bluetooth interface
 #define BTENABLED              // Enable BT interface on AT90USB devices
@@ -779,7 +783,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 // M240  Triggers a camera by emulating a Canon RC-1 Remote
 // Data from: http://www.doc-diy.net/photo/rc-1_hacked/
-// #define PHOTOGRAPH_PIN     23
+//#define PHOTOGRAPH_PIN     23
 
 // SF send wrong arc g-codes when using Arc Point as fillet procedure
 //#define SF_ARC_FIX
