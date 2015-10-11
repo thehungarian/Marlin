@@ -11,20 +11,19 @@
 //   ==> ALSO TRY ALL AVAILABLE LANGUAGE OPTIONS
 
 // Languages
-// en    English
-// pl    Polish
-// fr    French
-// de    German
-// es    Spanish
-// ru    Russian
-// it    Italian
-// pt    Portuguese
-// pt-br Portuguese (Brazil)
-// fi    Finnish
-// an    Aragonese
-// nl    Dutch
-// ca    Catalan
-// eu    Basque-Euskera
+// en English
+// pl Polish
+// fr French
+// de German
+// es Spanish
+// ru Russian
+// it Italian
+// pt Portuguese
+// fi Finnish
+// an Aragonese
+// nl Dutch
+// ca Catalan
+// eu Basque-Euskera
 
 #ifndef LANGUAGE_INCLUDE
   // pick your language from the list above
@@ -42,18 +41,12 @@
 #elif MB(3DRAG)
   #define MACHINE_NAME "3Drag"
   #define FIRMWARE_URL "http://3dprint.elettronicain.it/"
-#elif MB(K8200)
-  #define MACHINE_NAME "K8200"
-  #define FIRMWARE_URL "https://github.com/MarlinFirmware/Marlin"
 #elif MB(5DPRINT)
   #define MACHINE_NAME "Makibox"
   #define FIRMWARE_URL "https://github.com/MarlinFirmware/Marlin"
 #elif MB(SAV_MKI)
   #define MACHINE_NAME "SAV MkI"
   #define FIRMWARE_URL "https://github.com/fmalpartida/Marlin/tree/SAV-MkI-config"
-#elif MB(WITBOX)
-  #define MACHINE_NAME "WITBOX"
-  #define FIRMWARE_URL "https://github.com/MarlinFirmware/Marlin"
 #else
   #ifdef CUSTOM_MENDEL_NAME
     #define MACHINE_NAME CUSTOM_MENDEL_NAME
@@ -158,7 +151,7 @@
 #define MSG_BABYSTEPPING_Z                  "Babystepping Z"
 #define MSG_SERIAL_ERROR_MENU_STRUCTURE     "Error in menu structure"
 
-#define MSG_ERR_EEPROM_WRITE                "Error writing to EEPROM!"
+// LCD Menu Messages
 
 #include LANGUAGE_INCLUDE
 
