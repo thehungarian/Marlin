@@ -32,8 +32,8 @@
   ring_buffer rx_buffer  =  { { 0 }, 0, 0 };
 #endif
 
-FORCE_INLINE void store_char(unsigned char c) {
-  int i = (unsigned int)(rx_buffer.head + 1) % RX_BUFFER_SIZE;
+FORCE_INLINE void store_char(char c) {
+  unsigned int i = (rx_buffer.head + 1) % RX_BUFFER_SIZE;
 
   // if we should be storing the received character into the location
   // just before the tail (meaning that the head would advance to the
@@ -51,7 +51,7 @@ FORCE_INLINE void store_char(unsigned char c) {
   // fixed by Mark Sproul this is on the 644/644p
   //SIGNAL(SIG_USART_RECV)
   SIGNAL(M_USARTx_RX_vect) {
-    unsigned char c  =  M_UDRx;
+    char c  =  M_UDRx;
     store_char(c);
   }
 #endif
@@ -92,14 +92,16 @@ void MarlinSerial::begin(long baud) {
   sbi(M_UCSRxB, M_RXCIEx);
 }
 
-void MarlinSerial::end() {
+void MarlinSerial::end()
+{
   cbi(M_UCSRxB, M_RXENx);
   cbi(M_UCSRxB, M_TXENx);
   cbi(M_UCSRxB, M_RXCIEx);  
 }
 
 
-int MarlinSerial::peek(void) {
+char MarlinSerial::peek(void) 
+{
   if (rx_buffer.head == rx_buffer.tail) {
     return -1;
   } else {
@@ -107,14 +109,16 @@ int MarlinSerial::peek(void) {
   }
 }
 
-int MarlinSerial::read(void) {
+char MarlinSerial::read(void) {
   // if the head isn't ahead of the tail, we don't have any characters
   if (rx_buffer.head == rx_buffer.tail) {
     return -1;
   }
   else {
-    unsigned char c = rx_buffer.buffer[rx_buffer.tail];
-    rx_buffer.tail = (unsigned int)(rx_buffer.tail + 1) % RX_BUFFER_SIZE;
+    cli();
+    char c = rx_buffer.buffer[rx_buffer.tail];
+    rx_buffer.tail = (rx_buffer.tail + 1) % RX_BUFFER_SIZE;
+    sei();
     return c;
   }
 }
@@ -131,6 +135,8 @@ void MarlinSerial::flush() {
   // were full, not empty.
   rx_buffer.head = rx_buffer.tail;
 }
+
+
 
 
 /// imports from print.h
