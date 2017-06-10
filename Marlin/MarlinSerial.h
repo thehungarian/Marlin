@@ -89,7 +89,7 @@ class MarlinSerial //: public Stream
 
   public:
     MarlinSerial();
-    void begin(long);
+    void begin(unsigned long);
     void end();
     char peek(void);
     char read(void);
@@ -103,7 +103,7 @@ class MarlinSerial //: public Stream
     FORCE_INLINE void write(uint8_t c)
     {
       while (!((M_UCSRxA) & (1 << M_UDREx)))
-        ;
+      {};
 
       M_UDRx = c;
     }

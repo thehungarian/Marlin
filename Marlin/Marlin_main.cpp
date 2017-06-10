@@ -359,7 +359,10 @@ static long gcode_N, gcode_LastN, Stopped_gcode_LastN = 0;
 static bool relative_mode = false;  //Determines Absolute or Relative Coordinates
 
 static char cmdbuffer[BUFSIZE][MAX_CMD_SIZE];
+
+#ifdef SDSUPPORT
 static bool fromsd[BUFSIZE];
+#endif
 static int bufindr = 0;
 static int bufindw = 0;
 static int buflen = 0;
@@ -589,10 +592,13 @@ void setup()
   SERIAL_ECHO(freeMemory());
   SERIAL_ECHOPGM(MSG_PLANNER_BUFFER_BYTES);
   SERIAL_ECHOLN((int)sizeof(block_t)*BLOCK_BUFFER_SIZE);
-  for(int8_t i = 0; i < BUFSIZE; i++)
+  
+#ifdef SDSUPPORT
+  for(uint8_t i = 0; i < BUFSIZE; i++)
   {
     fromsd[i] = false;
   }
+#endif
 
   // loads data from EEPROM if available else uses defaults (and resets step acceleration rate)
   Config_RetrieveSettings();
@@ -604,10 +610,11 @@ void setup()
   setup_photpin();
   servo_init();
   
-
+#if defined(DOGLCD) | defined(ULTIPANEL) | defined(NEWPANEL)
   lcd_init();
   _delay_ms(1000);	// wait 1sec to display the splash screen
-
+#endif
+  
   #if defined(CONTROLLERFAN_PIN) && CONTROLLERFAN_PIN > -1
     SET_OUTPUT(CONTROLLERFAN_PIN); //Set pin used for driver cooling fan
   #endif
@@ -686,7 +693,10 @@ void get_command()
       cmdbuffer[bufindw][serial_count] = 0; //terminate string
       if(!comment_mode){
         comment_mode = false; //for new command
+        
+#ifdef SDSUPPORT
         fromsd[bufindw] = false;
+#endif
         if(strchr(cmdbuffer[bufindw], 'N') != NULL)
         {
           strchr_pointer = strchr(cmdbuffer[bufindw], 'N');
@@ -822,6 +832,7 @@ void get_command()
       }
       cmdbuffer[bufindw][serial_count] = 0; //terminate string
 //      if(!comment_mode){
+
         fromsd[bufindw] = true;
         buflen += 1;
         bufindw = (bufindw + 1)%BUFSIZE;
@@ -4183,13 +4194,17 @@ void prepare_arc_move(char isclockwise) {
 #endif
 
 unsigned long lastMotor = 0; //Save the time for when a motor was turned on last
-unsigned long lastMotorCheck = 0;
+unsigned long nextMotorCheck = 0;
+boolean controllerFanKickstart = 1;
 
 void controllerFan()
 {
-  if ((millis() - lastMotorCheck) >= 2500) //Not a time critical function, so we only check every 2500ms
+  #define CONTROLLERFAN_KICKSTART_MS 100
+  #define NEXT_CHECK_MS 2500
+  
+  if (millis() >= nextMotorCheck) //Not a time critical function, so we only check every 2500ms
   {
-    lastMotorCheck = millis();
+    nextMotorCheck = millis() + NEXT_CHECK_MS;
 
     if(!READ(X_ENABLE_PIN) || !READ(Y_ENABLE_PIN) || !READ(Z_ENABLE_PIN) || (soft_pwm_bed > 0)
     #if EXTRUDERS > 2
@@ -4206,12 +4221,22 @@ void controllerFan()
       lastMotor = millis(); //... set time to NOW so the fan will turn on
     }
 
-    if ((millis() - lastMotor) >= (CONTROLLERFAN_SECS*1000UL) || lastMotor == 0) //If the last time any driver was enabled, is longer since than CONTROLLERSEC...
+    unsigned long lastMotorDuration = (millis() - lastMotor);
+    if (lastMotorDuration >= (CONTROLLERFAN_SECS*1000UL) || lastMotor == 0) //If the last time any driver was enabled, is longer since than CONTROLLERSEC...
     {
         digitalWrite(CONTROLLERFAN_PIN, 0);
         analogWrite(CONTROLLERFAN_PIN, 0);
+        controllerFanKickstart = 1;
     }
-    else
+    else if(controllerFanKickstart)
+    {
+        controllerFanKickstart = 0;
+        // Kickstart the fans
+        digitalWrite(CONTROLLERFAN_PIN, 255);
+        analogWrite(CONTROLLERFAN_PIN, 255);
+        // come back soon to slow them down again
+        nextMotorCheck = millis() + CONTROLLERFAN_KICKSTART_MS;
+    } else
     {
         // allows digital or PWM fan output to be used (see M42 handling)
         digitalWrite(CONTROLLERFAN_PIN, CONTROLLERFAN_SPEED);

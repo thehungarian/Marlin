@@ -542,7 +542,7 @@
 
 
 // uncomment one of the following lines for RAMPS v1.3 or v1.0, comment both for v1.2 or 1.1
-// #define RAMPS_V_1_3
+#define RAMPS_V_1_3
 // #define RAMPS_V_1_0
 
 
@@ -705,7 +705,7 @@
     #define HEATER_2_PIN       -1
   #endif
 
-  #define TEMP_0_PIN         13   // ANALOG NUMBERING
+  #define TEMP_0_PIN         3   // ANALOG NUMBERING
   #define TEMP_1_PIN         15   // ANALOG NUMBERING
   #if MB(AZTEEG_X3_PRO)
     #define TEMP_2_PIN         12   // ANALOG NUMBERING
@@ -714,7 +714,7 @@
     #define TC1                4    // ANALOG NUMBERING Thermo couple on Azteeg X3Pro
     #define TC2                5    // ANALOG NUMBERING Thermo couple on Azteeg X3Pro
   #else
-    #define TEMP_2_PIN         -1   // ANALOG NUMBERING
+    #define TEMP_2_PIN         13   // ANALOG NUMBERING
   #endif
 
   #if MB(RAMPS_13_EFF) || MB(RAMPS_13_EEF)

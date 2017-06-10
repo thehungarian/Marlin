@@ -67,7 +67,7 @@ MarlinSerial::MarlinSerial()
 
 // Public Methods //////////////////////////////////////////////////////////////
 
-void MarlinSerial::begin(long baud)
+void MarlinSerial::begin(unsigned long baud)
 {
   uint16_t baud_setting;
   bool useU2X = true;
